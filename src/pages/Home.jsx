@@ -1,9 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import AboutSection from '../components/AboutSection'
 import PresidentMessage from '../components/PresidentMessage'
 import Affiliations from '../components/Affiliations'
+import NewsUpdates from '../components/NewsUpdates'
 import Disciplines from '../components/Disciplines'
+import ExperienceAction from '../components/ExperienceAction'
+import WhyChooseUs from '../components/WhyChooseUs'
+import GetInvolved from '../components/GetInvolved'
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa'
 
 function Home() {
@@ -78,14 +83,29 @@ function Home() {
         </main>
       </div>
 
+
       {/* President Message Section */}
       <PresidentMessage />
 
       {/* Affiliations Section */}
       <Affiliations />
 
+      {/* News & Updates Section */}
+      <NewsUpdates />
+
       {/* Disciplines Section */}
       <Disciplines />
+
+      {/* About Section */}
+      <AboutSection />
+      {/* Experience Action Section */}
+      <ExperienceAction />
+
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
+
+      {/* Get Involved Section */}
+      <GetInvolved />
 
     </div>
   )
