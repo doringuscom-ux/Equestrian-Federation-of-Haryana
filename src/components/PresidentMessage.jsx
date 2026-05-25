@@ -80,9 +80,9 @@ const PresidentMessage = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-2xl font-['Playfair_Display'] font-bold text-[#0f1f3a] leading-none mb-1.5">{msg.name}</h4>
-                  <div className="flex items-center flex-wrap gap-1.5">
-                    <span className="text-[#bfa15f] text-[10px] md:text-[11px] font-extrabold uppercase tracking-widest leading-none">
+                  <h4 className="text-3xl font-['Playfair_Display'] font-black text-black leading-none mb-2">{msg.name}</h4>
+                  <div className="flex items-center flex-wrap gap-2 mt-2">
+                    <span className="text-black text-[11px] md:text-[12px] font-black uppercase tracking-widest leading-none">
                       {msg.role}
                     </span>
                     <span className="text-[#64748b] text-[10px] md:text-[11px] font-bold uppercase tracking-wider leading-none">
@@ -172,9 +172,9 @@ const PresidentMessage = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="text-2xl font-['Playfair_Display'] font-bold text-[#0f1f3a] leading-none mb-1.5">{msg.name}</h4>
-                    <div className="flex items-center flex-wrap gap-1.5">
-                      <span className="text-[#bfa15f] text-[10px] md:text-[11px] font-extrabold uppercase tracking-widest leading-none">
+                    <h4 className="text-3xl font-['Playfair_Display'] font-black text-black leading-none mb-2">{msg.name}</h4>
+                    <div className="flex items-center flex-wrap gap-2 mt-2">
+                      <span className="text-black text-[11px] md:text-[12px] font-black uppercase tracking-widest leading-none">
                         {msg.role}
                       </span>
                       <span className="text-[#64748b] text-[10px] md:text-[11px] font-bold uppercase tracking-wider leading-none">

@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-
-const images = [
-  { id: 1, src: '/IMG/Horse/1.jpg', title: 'HARYANA EQUESTRIAN - SHOW JUMPING', category: 'GENERAL' },
-  { id: 2, src: '/IMG/Horse/2.jpg', title: 'HARYANA EQUESTRIAN - DRESSAGE', category: 'GENERAL' },
-  { id: 3, src: '/IMG/Horse/3.jpg', title: 'HARYANA EQUESTRIAN - CHAMPIONSHIP', category: 'GENERAL' },
-  { id: 4, src: '/IMG/Horse/4.jpg', title: 'HARYANA EQUESTRIAN - EVENTING', category: 'GENERAL' },
-  { id: 5, src: '/IMG/Horse/5.jpg', title: 'HARYANA EQUESTRIAN - TRAINING', category: 'GENERAL' },
-  { id: 6, src: '/IMG/Horse/6.jpg', title: 'HARYANA EQUESTRIAN - ENDURANCE', category: 'GENERAL' },
-  { id: 7, src: '/IMG/Horse/7.jpg', title: 'HARYANA EQUESTRIAN - TENT PEGGING', category: 'GENERAL' },
-  { id: 8, src: '/IMG/Horse/8.jpg', title: 'HARYANA EQUESTRIAN - MEDAL CEREMONY', category: 'GENERAL' },
-  { id: 9, src: '/IMG/Horse/9.jpg', title: 'HARYANA EQUESTRIAN - RIDERS', category: 'GENERAL' },
-  { id: 10, src: '/IMG/Horse/10.jpg', title: 'HARYANA EQUESTRIAN - ACTION', category: 'GENERAL' }
-];
+import { API_BASE_URL } from '../config/api';
 
 const videos = [
   { id: 1, src: 'https://www.youtube.com/embed/M7lc1UVf-VE', title: 'HARYANA EQUESTRIAN - VIDEO 1' },
@@ -27,10 +15,25 @@ const GalleryPage = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [activeTab, setActiveTab] = useState('images');
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchImages();
   }, []);
+
+  const fetchImages = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/gallery`);
+      const data = await res.json();
+      setImages(data);
+    } catch (error) {
+      console.error('Failed to fetch gallery images', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (selectedIndex !== null) {
@@ -124,23 +127,36 @@ const GalleryPage = () => {
 
         {/* Content */}
         {activeTab === 'images' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {images.map((img, index) => (
-              <div 
-                key={img.id} 
-                className="relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg bg-[#111] aspect-[4/3]"
-                onClick={() => { setSelectedIndex(index); setZoomLevel(1); }}
-              >
-                <img 
-                  src={img.src} 
-                  alt={`Gallery visual ${img.id}`} 
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-              </div>
-            ))}
-          </div>
+          isLoading ? (
+            <div className="flex justify-center items-center h-[400px]">
+              <div className="w-10 h-10 border-4 border-[#2563eb] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : images.length === 0 ? (
+            <div className="flex justify-center items-center h-[400px] text-gray-500 font-bold tracking-widest uppercase">
+              No images available
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {images.map((img, index) => (
+                <div 
+                  key={img._id} 
+                  className="relative group overflow-hidden rounded-2xl cursor-pointer shadow-lg bg-[#111] aspect-[4/3]"
+                  onClick={() => { setSelectedIndex(index); setZoomLevel(1); }}
+                >
+                  <img 
+                    src={img.image} 
+                    alt={img.title} 
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-4">
+                    <span className="text-[10px] font-bold text-[#2563eb] tracking-widest uppercase">{img.category}</span>
+                    <h3 className="text-white text-sm font-bold truncate">{img.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-[fadeIn_0.3s_ease-out]">
             {videos.map((vid) => (
@@ -209,7 +225,7 @@ const GalleryPage = () => {
               {/* Overflow Hidden Wrapper to clip zoom */}
               <div className="relative overflow-hidden rounded-lg shadow-2xl flex items-center justify-center max-h-[70vh] md:max-h-[80vh]">
                 <img 
-                  src={images[selectedIndex].src} 
+                  src={images[selectedIndex].image} 
                   alt={images[selectedIndex].title} 
                   className="w-auto h-full max-h-[70vh] md:max-h-[80vh] object-contain transition-transform duration-300 ease-out animate-[fadeIn_0.3s_ease-out]"
                   style={{ transform: `scale(${zoomLevel})` }}
