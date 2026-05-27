@@ -70,11 +70,36 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('adminToken');
   };
 
+  const register = async (userData) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setToken(data.token);
+        setUser(data);
+        localStorage.setItem('adminToken', data.token); // using same key for simplicity or maybe userToken
+        return { success: true };
+      } else {
+        return { success: false, message: data.message || 'Registration failed' };
+      }
+    } catch (error) {
+      return { success: false, message: 'Server error during registration' };
+    }
+  };
+
   const value = {
     user,
+    setUser,
     token,
     loading,
     login,
+    register,
     logout
   };
 

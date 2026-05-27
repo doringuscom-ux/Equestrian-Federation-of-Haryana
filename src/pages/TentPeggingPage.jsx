@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Navbar from '../components/Navbar';
 
 const TentPeggingPage = () => {
   
@@ -26,8 +25,7 @@ const TentPeggingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]"></div>
         
         {/* Navbar */}
-        <Navbar />
-
+        
         {/* Hero Content */}
         <div className="absolute inset-0 flex flex-col justify-end pb-16 md:pb-24 px-4 md:px-8 max-w-[1400px] mx-auto z-20">
           <div className="flex items-center gap-4 mb-4">

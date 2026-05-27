@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 
 const disciplines = [
   { name: 'Show Jumping', image: '/IMG/Horse/1.jpg', desc: 'Precision, speed, and agility over challenging obstacles.', link: '/show-jumping' },
@@ -18,8 +17,7 @@ const AboutPage = () => {
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white">
       {/* Navbar Overlay */}
-      <Navbar />
-
+      
       {/* Hero Section */}
       <div className="relative pt-24 md:pt-32 pb-8 md:pb-12 w-full overflow-hidden flex flex-col justify-center items-center px-4 bg-[#0a0a0a] border-b border-white/5">
         <div className="absolute inset-0 z-0">

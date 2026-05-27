@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Navbar from '../components/Navbar'
 import AboutSection from '../components/AboutSection'
 import PresidentMessage from '../components/PresidentMessage'
 import Affiliations from '../components/Affiliations'
 import NewsUpdates from '../components/NewsUpdates'
+import HomeNewsSection from '../components/HomeNewsSection'
 import Disciplines from '../components/Disciplines'
 import ExperienceAction from '../components/ExperienceAction'
 import WhyChooseUs from '../components/WhyChooseUs'
@@ -34,8 +34,7 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/20 z-10"></div>
 
         {/* Navbar */}
-        <Navbar />
-
+        
         {/* Left Social Icons */}
         <div className="absolute left-10 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col gap-8 text-lg">
           <a href="#" className="hover:text-gray-300 transition-colors"><FaFacebookF /></a>
@@ -90,8 +89,11 @@ function Home() {
       {/* Affiliations Section */}
       <Affiliations />
 
-      {/* News & Updates Section */}
+      {/* News & Updates Section (Events) */}
       <NewsUpdates />
+
+      {/* Official News & Results Section */}
+      <HomeNewsSection />
 
       {/* Disciplines Section */}
       <Disciplines />

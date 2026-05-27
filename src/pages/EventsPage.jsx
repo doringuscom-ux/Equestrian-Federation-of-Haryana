@@ -1,74 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
-
-export const upcomingEvents = [
-  {
-    id: 1,
-    title: 'Haryana State Dressage Championship 2026',
-    date: 'Oct 15 - Oct 18, 2026',
-    time: '08:00 AM - 05:00 PM',
-    location: 'Equestrian Center, Gurugram',
-    image: '/IMG/Horse/2.jpg',
-    status: 'Registrations Open',
-  },
-  {
-    id: 2,
-    title: 'National Endurance Qualifier',
-    date: 'Nov 05, 2026',
-    time: '06:00 AM - 02:00 PM',
-    location: 'Aravalli Trails, Faridabad',
-    image: '/IMG/Horse/5.jpg',
-    status: 'Upcoming',
-  },
-  {
-    id: 3,
-    title: 'Annual Show Jumping Gala',
-    date: 'Dec 12 - Dec 14, 2026',
-    time: '09:00 AM - 06:00 PM',
-    location: 'EFH Main Arena, Rohtak',
-    image: '/IMG/Horse/1.jpg',
-    status: 'Upcoming',
-  }
-];
-
-export const completedEvents = [
-  {
-    id: 4,
-    title: 'Spring Eventing Classic 2026',
-    date: 'Mar 10 - Mar 12, 2026',
-    time: '09:00 AM - 05:00 PM',
-    location: 'Gurugram',
-    image: '/IMG/Horse/3.jpg',
-    status: 'Completed'
-  },
-  {
-    id: 5,
-    title: 'EFH Tent Pegging Tournament',
-    date: 'Jan 22 - Jan 24, 2026',
-    time: '10:00 AM - 04:00 PM',
-    location: 'Karnal',
-    image: '/IMG/Horse/4.jpg',
-    status: 'Completed'
-  },
-  {
-    id: 6,
-    title: 'Winter Dressage Showcase',
-    date: 'Dec 05 - Dec 07, 2025',
-    time: '08:30 AM - 03:00 PM',
-    location: 'Panipat',
-    image: '/IMG/Horse/6.jpg',
-    status: 'Completed'
-  }
-];
+import { API_BASE_URL } from '../config/api';
 
 const EventsPage = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchEvents();
   }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/events`);
+      const data = await res.json();
+      // Filter out drafts
+      setEvents(data.filter(e => e.visibilityStatus === 'Published'));
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const upcomingEvents = events.filter(e => e.status !== 'Completed');
+  const completedEvents = events.filter(e => e.status === 'Completed');
 
   const displayedEvents = activeTab === 'upcoming' ? upcomingEvents : completedEvents;
 
@@ -87,8 +46,7 @@ const EventsPage = () => {
         </div>
 
         {/* Navbar */}
-        <Navbar />
-
+        
         {/* Hero Content */}
         <div className="relative z-20 text-center px-4 mt-16">
           <div className="flex items-center justify-center gap-4 mb-6">
@@ -146,47 +104,57 @@ const EventsPage = () => {
           </div>
 
           {/* Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayedEvents.map((event) => (
-              <div key={event.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden group hover:border-[#cba358]/50 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full shadow-lg">
-                <div className="h-64 overflow-hidden relative">
-                  <img 
-                    src={event.image} 
-                    alt={event.title} 
-                    className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className={`absolute top-4 right-4 text-xs font-bold px-3 py-1.5 uppercase tracking-wider rounded-sm shadow-lg ${
-                    activeTab === 'completed' ? 'bg-white/90 text-black' : 'bg-[#cba358] text-black'
-                  }`}>
-                    {event.status}
-                  </div>
-                </div>
-                <div className="p-8 flex flex-col flex-grow">
-                  <h3 className="text-2xl font-bold font-['Playfair_Display'] text-white mb-6 group-hover:text-[#cba358] transition-colors duration-300">
-                    {event.title}
-                  </h3>
-                  <div className="space-y-4 mb-8 flex-grow">
-                    <div className="flex items-start gap-3 text-gray-400">
-                      <FaCalendarAlt className="mt-1 text-[#cba358] shrink-0" size={14} />
-                      <span className="text-sm font-light">{event.date}</span>
-                    </div>
-                    <div className="flex items-start gap-3 text-gray-400">
-                      <FaClock className="mt-1 text-[#cba358] shrink-0" size={14} />
-                      <span className="text-sm font-light">{event.time}</span>
-                    </div>
-                    <div className="flex items-start gap-3 text-gray-400">
-                      <FaMapMarkerAlt className="mt-1 text-[#cba358] shrink-0" size={14} />
-                      <span className="text-sm font-light">{event.location}</span>
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-12 h-12 border-4 border-[#cba358]/30 border-t-[#cba358] rounded-full animate-spin"></div>
+            </div>
+          ) : displayedEvents.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-gray-500 font-light text-xl">No events found in this category.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {displayedEvents.map((event) => (
+                <div key={event._id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden group hover:border-[#cba358]/50 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full shadow-lg">
+                  <div className="h-64 overflow-hidden relative">
+                    <img 
+                      src={event.image} 
+                      alt={event.title} 
+                      className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className={`absolute top-4 right-4 text-xs font-bold px-3 py-1.5 uppercase tracking-wider rounded-sm shadow-lg ${
+                      activeTab === 'completed' ? 'bg-white/90 text-black' : 'bg-[#cba358] text-black'
+                    }`}>
+                      {event.status}
                     </div>
                   </div>
-                  <Link to={`/event/${event.id}`} className="w-full py-4 border-t border-white/10 text-white text-xs font-bold tracking-widest uppercase hover:text-[#cba358] transition-colors duration-300 text-left flex justify-between items-center group-hover:border-[#cba358]/30">
-                    View Details
-                    <span className="text-lg leading-none transform transition-transform duration-300 group-hover:translate-x-2">→</span>
-                  </Link>
+                  <div className="p-8 flex flex-col flex-grow">
+                    <h3 className="text-2xl font-bold font-['Playfair_Display'] text-white mb-6 group-hover:text-[#cba358] transition-colors duration-300">
+                      {event.title}
+                    </h3>
+                    <div className="space-y-4 mb-8 flex-grow">
+                      <div className="flex items-start gap-3 text-gray-400">
+                        <FaCalendarAlt className="mt-1 text-[#cba358] shrink-0" size={14} />
+                        <span className="text-sm font-light">{event.date}</span>
+                      </div>
+                      <div className="flex items-start gap-3 text-gray-400">
+                        <FaClock className="mt-1 text-[#cba358] shrink-0" size={14} />
+                        <span className="text-sm font-light">{event.time || event.duration || 'All Day'}</span>
+                      </div>
+                      <div className="flex items-start gap-3 text-gray-400">
+                        <FaMapMarkerAlt className="mt-1 text-[#cba358] shrink-0" size={14} />
+                        <span className="text-sm font-light">{event.location}</span>
+                      </div>
+                    </div>
+                    <Link to={`/event/${event._id}`} className="w-full py-4 border-t border-white/10 text-white text-xs font-bold tracking-widest uppercase hover:text-[#cba358] transition-colors duration-300 text-left flex justify-between items-center group-hover:border-[#cba358]/30">
+                      View Details
+                      <span className="text-lg leading-none transform transition-transform duration-300 group-hover:translate-x-2">→</span>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>

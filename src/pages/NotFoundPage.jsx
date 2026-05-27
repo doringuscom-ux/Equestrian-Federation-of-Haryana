@@ -1,12 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 
 const NotFoundPage = () => {
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white flex flex-col">
-      <Navbar />
-      
+            
       <div className="flex-1 flex flex-col items-center justify-center px-4 relative z-10 pt-20">
         {/* Decorative background element */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-[#cba358]/5 rounded-full blur-[100px] z-0"></div>

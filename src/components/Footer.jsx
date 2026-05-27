@@ -41,11 +41,18 @@ const Footer = () => {
               Quick Links
             </h4>
             <ul className="flex flex-col gap-3">
-              {['Home', 'About EFH', 'Disciplines', 'Gallery', 'Membership', 'Contact Us'].map((link, idx) => (
+              {[
+                { name: 'Home', path: '/' }, 
+                { name: 'About EFH', path: '/about' }, 
+                { name: 'Events', path: '/events' },
+                { name: 'News & Results', path: '/news-and-results' },
+                { name: 'Gallery', path: '/gallery' }, 
+                { name: 'Contact Us', path: '/contact' }
+              ].map((link, idx) => (
                 <li key={idx}>
-                  <Link to="/" className="text-gray-400 hover:text-[#cba358] text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <Link to={link.path} onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-[#cba358] text-sm transition-colors duration-300 flex items-center gap-2 group">
                     <span className="w-0 h-[1px] bg-[#cba358] transition-all duration-300 group-hover:w-3"></span>
-                    {link}
+                    {link.name}
                   </Link>
                 </li>
               ))}

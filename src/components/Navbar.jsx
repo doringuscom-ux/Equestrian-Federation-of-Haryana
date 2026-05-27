@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Settings2, Menu, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
@@ -12,10 +15,11 @@ const Navbar = () => {
   };
 
   const isDisciplineActive = ['/dressage', '/show-jumping', '/eventing', '/tent-pegging', '/endurance'].some(path => location.pathname.startsWith(path));
+  const isSolidNavbar = ['/profile', '/login', '/register'].some(path => location.pathname.startsWith(path));
 
   return (
     <>
-      <nav className="absolute top-0 w-full z-30 bg-transparent text-white pt-8 pb-4">
+      <nav className={`absolute top-0 w-full z-30 text-white pt-8 pb-4 transition-colors duration-300 ${isSolidNavbar ? 'bg-[#0a0a0a] shadow-xl' : 'bg-transparent'}`}>
         <div className="max-w-[1500px] mx-auto px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center gap-3">
@@ -48,6 +52,21 @@ const Navbar = () => {
               <Link to="/news-and-results" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/news-and-results') ? 'border-white text-white' : 'border-transparent'}`}>NEWS & RESULTS</Link>
               <Link to="/gallery" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/gallery') ? 'border-white text-white' : 'border-transparent'}`}>GALLERY</Link>
               <Link to="/contact" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/contact') ? 'border-white text-white' : 'border-transparent'}`}>GET IN TOUCH</Link>
+              {user ? (
+                <>
+                  <Link to={user.role === 'admin' ? '/admin/dashboard' : '/profile'} className={`hover:text-[#cba358] transition-colors duration-300 pb-1 border-b ${isActive('/profile') || isActive('/admin/dashboard') ? 'border-[#cba358] text-[#cba358]' : 'border-transparent text-[#cba358]'}`}>
+                    {user.role === 'admin' ? 'DASHBOARD' : 'PROFILE'}
+                  </Link>
+                  <button onClick={() => { logout(); navigate('/'); }} className="hover:text-red-400 transition-colors duration-300 pb-1 border-b border-transparent uppercase">
+                    LOGOUT
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/login') ? 'border-white text-white' : 'border-transparent'}`}>LOGIN</Link>
+                  <Link to="/register" className={`bg-[#cba358] text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition-colors`}>REGISTER</Link>
+                </>
+              )}
             </div>
 
             <div className="flex items-center gap-4 md:gap-6">
@@ -93,6 +112,21 @@ const Navbar = () => {
           <Link to="/news-and-results" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/news-and-results') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>NEWS & RESULTS</Link>
           <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/gallery') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GALLERY</Link>
           <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/contact') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GET IN TOUCH</Link>
+          {user ? (
+            <>
+              <Link to={user.role === 'admin' ? '/admin/dashboard' : '/profile'} onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/profile') || isActive('/admin/dashboard') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>
+                {user.role === 'admin' ? 'DASHBOARD' : 'PROFILE'}
+              </Link>
+              <button onClick={() => { logout(); navigate('/'); setIsMobileMenuOpen(false); }} className="text-red-500 hover:text-red-400 transition-colors uppercase">
+                LOGOUT
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/login') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>LOGIN</Link>
+              <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/register') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>REGISTER</Link>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -16,22 +16,6 @@ const affiliationsData = [
     logo: '/IMG/HARYANAOLYMPIC.jpg',
     containerColor: 'bg-white',
     description: 'Supporting athletes and fostering Olympic values across the state of Haryana.'
-  },
-  {
-    id: 3,
-    title: 'SPORTS AUTHORITY\nOF INDIA',
-    abbr: 'SAI',
-    logo: '/IMG/SPORTS AUTHORITY.jpg',
-    containerColor: 'bg-white',
-    description: 'An autonomous body under the Government of India, working towards sports development and excellence.'
-  },
-  {
-    id: 4,
-    title: 'INTERNATIONAL\nEQUESTRIAN BODY',
-    abbr: 'FEI',
-    logo: '/IMG/FEI.png',
-    containerColor: 'bg-[#41134a]',
-    description: 'The worldwide governing body for equestrian sport, uniting nations through equestrian excellence.'
   }
 ];
 
@@ -85,7 +69,7 @@ const Affiliations = () => {
         </p>
 
         {/* Cards Grid (3D Flip Container) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl mx-auto">
           {affiliationsData.map((item) => (
             <div 
               key={item.id}

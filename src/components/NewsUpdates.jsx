@@ -1,21 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { upcomingEvents, completedEvents } from '../pages/EventsPage';
-
-const newsData = [...upcomingEvents, ...completedEvents].map(event => ({
-  id: event.id,
-  date: event.date.split(' - ')[0], // Use start date for shorter display
-  title: event.title,
-  description: `Experience the thrill of equestrian sports at the ${event.title}, taking place at ${event.location}.`,
-  category: event.status === 'Completed' ? 'Results' : (event.status === 'Registrations Open' ? 'Upcoming Events' : 'Events'),
-  image: event.image
-}));
+import { API_BASE_URL } from '../config/api';
 
 const NewsUpdates = () => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [visibleCount, setVisibleCount] = useState(6);
-  const filters = ['All', 'Upcoming Events', 'Events', 'Results'];
+  const [newsData, setNewsData] = useState([]);
+  const filters = ['All', 'Upcoming Events', 'Events'];
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/events`);
+        const data = await res.json();
+        const mappedNews = data
+          .filter(e => e.visibilityStatus === 'Published' && e.status !== 'Completed')
+          .map(event => ({
+            id: event._id,
+            date: event.date.split(' - ')[0],
+            title: event.title,
+            description: event.description || `Experience the thrill of equestrian sports at the ${event.title}, taking place at ${event.location}.`,
+            category: event.status === 'Registrations Open' ? 'Upcoming Events' : 'Events',
+            image: event.image || '/IMG/Horse/7.jpg'
+          }));
+        setNewsData(mappedNews);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   const filteredNews = activeFilter === 'All' 
     ? newsData 

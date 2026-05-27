@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 import { API_BASE_URL } from '../config/api';
 
 const ContactPage = () => {
@@ -88,8 +87,7 @@ const ContactPage = () => {
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white">
       {/* Navbar Overlay */}
-      <Navbar />
-
+      
       {/* Hero Section */}
       <div className="relative pt-24 md:pt-32 pb-8 md:pb-12 w-full overflow-hidden flex flex-col justify-center items-center px-4 bg-[#0a0a0a] border-b border-white/5">
         <div className="absolute inset-0 z-0">

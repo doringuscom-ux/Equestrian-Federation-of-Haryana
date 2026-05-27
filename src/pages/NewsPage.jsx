@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
 import { FaFilePdf, FaCalendarAlt } from 'react-icons/fa';
 import { Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
@@ -28,8 +27,7 @@ const NewsPage = () => {
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white">
       {/* Navbar Overlay */}
-      <Navbar />
-
+      
       {/* Hero Section */}
       <div className="relative pt-32 md:pt-40 pb-10 md:pb-20 w-full overflow-hidden flex flex-col justify-center items-center px-4 bg-[#0a0a0a] border-b border-white/5">
         <div className="relative z-20 text-center max-w-[1000px] mx-auto">
