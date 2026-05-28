@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../config/api';
 import api from '../api/apiConfig';
 import EventRegistrationModal from '../components/events/EventRegistrationModal';
 import { useAuth } from '../context/AuthContext';
+import LoadingScreen from '../components/LoadingScreen';
 
 const SingleEventPage = () => {
   const { user } = useAuth();
@@ -114,6 +115,7 @@ const SingleEventPage = () => {
 
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white relative">
+      <LoadingScreen isLoading={loading} />
       
       {/* Navbar Overlay */}
       

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import { API_BASE_URL } from '../config/api';
+import LoadingScreen from '../components/LoadingScreen';
 
 const EventsPage = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
@@ -33,6 +34,7 @@ const EventsPage = () => {
 
   return (
     <div className="w-full font-['Inter'] bg-[#050505]">
+      <LoadingScreen isLoading={loading} />
       {/* Hero Section */}
       <div className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden text-white flex flex-col justify-center items-center">
         {/* Background Image */}
@@ -104,11 +106,7 @@ const EventsPage = () => {
           </div>
 
           {/* Events Grid */}
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="w-12 h-12 border-4 border-[#cba358]/30 border-t-[#cba358] rounded-full animate-spin"></div>
-            </div>
-          ) : displayedEvents.length === 0 ? (
+          {displayedEvents.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-gray-500 font-light text-xl">No events found in this category.</p>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Settings2, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -35,7 +35,7 @@ const Navbar = () => {
               </span>
             </Link>
             
-            <div className="hidden md:flex space-x-12 items-center text-xs font-semibold tracking-widest uppercase">
+            <div className="hidden xl:flex space-x-6 xl:space-x-10 items-center text-xs font-semibold tracking-widest uppercase">
               <Link to="/" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/') ? 'border-white text-white' : 'border-transparent'}`}>HOME</Link>
               <Link to="/about" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/about') ? 'border-white text-white' : 'border-transparent'}`}>ABOUT</Link>
               <div className="relative group pb-4 -mb-4">
@@ -70,14 +70,8 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-4 md:gap-6">
-              <button className="hover:text-gray-300 transition-colors">
-                <Search size={22} strokeWidth={1.2} />
-              </button>
-              <button className="hover:text-gray-300 transition-colors">
-                <Settings2 size={24} strokeWidth={1.2} />
-              </button>
               <button 
-                className="md:hidden hover:text-gray-300 transition-colors ml-2"
+                className="xl:hidden hover:text-gray-300 transition-colors ml-2"
                 onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Menu size={24} strokeWidth={1.2} />
@@ -87,46 +81,62 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-[#0a0a0a] z-50 transition-transform duration-300 text-white flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex justify-end p-8">
+      {/* Drawer Backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300"
+        />
+      )}
+
+      {/* Mobile Drawer Menu */}
+      <div className={`fixed right-0 top-0 h-full w-80 sm:w-96 bg-[#0a0a0a] border-l border-white/10 z-50 transition-transform duration-300 text-white flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex justify-between items-center p-6 border-b border-white/5">
+          <span className="font-[inter] font-light text-xl tracking-[0.2em] uppercase">MENU</span>
           <button 
-            className="hover:text-gray-300 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors text-white"
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <X size={32} strokeWidth={1.2} />
+            <X size={24} strokeWidth={1.5} />
           </button>
         </div>
-        <div className="flex flex-col space-y-6 mt-4 text-sm font-semibold tracking-widest uppercase items-center overflow-y-auto pb-8">
-          <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>HOME</Link>
-          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/about') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>ABOUT</Link>
-          <div className="flex flex-col items-center space-y-4 py-4 w-full bg-white/5">
-            <span className={isDisciplineActive ? 'text-[#cba358]' : ''}>DISCIPLINES</span>
-            <Link to="/dressage" onClick={() => setIsMobileMenuOpen(false)} className={`text-xs transition-colors ${isActive('/dressage') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>Dressage</Link>
-            <Link to="/show-jumping" onClick={() => setIsMobileMenuOpen(false)} className={`text-xs transition-colors ${isActive('/show-jumping') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>Show Jumping</Link>
-            <Link to="/eventing" onClick={() => setIsMobileMenuOpen(false)} className={`text-xs transition-colors ${isActive('/eventing') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>Eventing</Link>
-            <Link to="/tent-pegging" onClick={() => setIsMobileMenuOpen(false)} className={`text-xs transition-colors ${isActive('/tent-pegging') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>Tent Pegging</Link>
-            <Link to="/endurance" onClick={() => setIsMobileMenuOpen(false)} className={`text-xs transition-colors ${isActive('/endurance') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>Endurance</Link>
+        <div className="flex-1 overflow-y-auto px-8 py-8 space-y-5 text-xs font-semibold tracking-widest uppercase">
+          <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>HOME</Link>
+          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/about') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>ABOUT</Link>
+          
+          <div className="space-y-2.5">
+            <span className={`text-[10px] font-bold text-gray-500 tracking-[0.3em] block mb-1 ${isDisciplineActive ? 'text-[#cba358]' : ''}`}>DISCIPLINES</span>
+            <div className="pl-4 border-l border-white/10 space-y-2.5">
+              <Link to="/dressage" onClick={() => setIsMobileMenuOpen(false)} className={`block py-0.5 text-[11px] transition-colors ${isActive('/dressage') ? 'text-[#cba358]' : 'text-gray-400 hover:text-white'}`}>Dressage</Link>
+              <Link to="/show-jumping" onClick={() => setIsMobileMenuOpen(false)} className={`block py-0.5 text-[11px] transition-colors ${isActive('/show-jumping') ? 'text-[#cba358]' : 'text-gray-400 hover:text-white'}`}>Show Jumping</Link>
+              <Link to="/eventing" onClick={() => setIsMobileMenuOpen(false)} className={`block py-0.5 text-[11px] transition-colors ${isActive('/eventing') ? 'text-[#cba358]' : 'text-gray-400 hover:text-white'}`}>Eventing</Link>
+              <Link to="/tent-pegging" onClick={() => setIsMobileMenuOpen(false)} className={`block py-0.5 text-[11px] transition-colors ${isActive('/tent-pegging') ? 'text-[#cba358]' : 'text-gray-400 hover:text-white'}`}>Tent Pegging</Link>
+              <Link to="/endurance" onClick={() => setIsMobileMenuOpen(false)} className={`block py-0.5 text-[11px] transition-colors ${isActive('/endurance') ? 'text-[#cba358]' : 'text-gray-400 hover:text-white'}`}>Endurance</Link>
+            </div>
           </div>
-          <Link to="/events" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/events') || isActive('/event/') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>EVENTS</Link>
-          <Link to="/news-and-results" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/news-and-results') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>NEWS & RESULTS</Link>
-          <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/gallery') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GALLERY</Link>
-          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/contact') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GET IN TOUCH</Link>
-          {user ? (
-            <>
-              <Link to={user.role === 'admin' ? '/admin/dashboard' : '/profile'} onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/profile') || isActive('/admin/dashboard') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>
-                {user.role === 'admin' ? 'DASHBOARD' : 'PROFILE'}
-              </Link>
-              <button onClick={() => { logout(); navigate('/'); setIsMobileMenuOpen(false); }} className="text-red-500 hover:text-red-400 transition-colors uppercase">
-                LOGOUT
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/login') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>LOGIN</Link>
-              <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className={`transition-colors ${isActive('/register') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>REGISTER</Link>
-            </>
-          )}
+
+          <Link to="/events" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/events') || isActive('/event/') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>EVENTS</Link>
+          <Link to="/news-and-results" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/news-and-results') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>NEWS & RESULTS</Link>
+          <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/gallery') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GALLERY</Link>
+          <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/contact') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GET IN TOUCH</Link>
+          
+          <div className="pt-6 border-t border-white/5 space-y-4">
+            {user ? (
+              <>
+                <Link to={user.role === 'admin' ? '/admin/dashboard' : '/profile'} onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/profile') || isActive('/admin/dashboard') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>
+                  {user.role === 'admin' ? 'DASHBOARD' : 'PROFILE'}
+                </Link>
+                <button onClick={() => { logout(); navigate('/'); setIsMobileMenuOpen(false); }} className="flex items-center py-1 text-red-500 hover:text-red-400 transition-colors uppercase w-full text-left font-semibold tracking-widest bg-transparent border-0 cursor-pointer">
+                  LOGOUT
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/login') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>LOGIN</Link>
+                <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className="inline-block text-center bg-[#cba358] text-white px-6 py-2.5 rounded-full hover:bg-yellow-600 transition-colors w-full font-bold tracking-widest text-[11px]">REGISTER</Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>

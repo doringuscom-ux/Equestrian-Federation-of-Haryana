@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 group">
                 <FaEnvelope className="text-[#cba358] shrink-0" size={14} />
-                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">info@efh-haryana.org</span>
+                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">effharyana@gmail.com</span>
               </li>
             </ul>
           </div>

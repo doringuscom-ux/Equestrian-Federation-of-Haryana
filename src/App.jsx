@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
+import ForgotPassword from './pages/ForgotPassword'
 import ProfilePage from './pages/ProfilePage'
 import PdfViewerPage from './pages/PdfViewerPage'
 import AdminLogin from './pages/AdminLogin'
@@ -24,7 +25,7 @@ import Coupons from './pages/admin/Coupons'
 import News from './pages/admin/News'
 import RegistrationManagement from './pages/admin/RegistrationManagement'
 import NotFoundPage from './pages/NotFoundPage'
-import LoadingScreen from './components/LoadingScreen'
+
 import Footer from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -69,19 +70,8 @@ const ConditionalScrollToTop = () => {
 };
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500); // Hide loading screen after 2.5 seconds
-    
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <AuthProvider>
-      <LoadingScreen isLoading={isLoading} />
       <Router>
         <ConditionalScrollToTop />
         <ConditionalNavbar />
@@ -89,6 +79,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/dressage" element={<DressagePage />} />
           <Route path="/show-jumping" element={<ShowJumpingPage />} />
@@ -115,7 +106,6 @@ function App() {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             {/* Placeholder routes for sidebar links */}
             <Route path="/admin/gallery" element={<AdminGallery />} />
-            <Route path="/admin/media" element={<div className="p-8">Media Library (Coming Soon)</div>} />
             <Route path="/admin/events" element={<AdminEvents />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/registration-management" element={<RegistrationManagement />} />

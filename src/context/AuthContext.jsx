@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { API_BASE_URL } from '../config/api';
+import LoadingScreen from '../components/LoadingScreen';
 
 const AuthContext = createContext();
 
@@ -105,6 +106,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
+      <LoadingScreen isLoading={loading} />
       {!loading && children}
     </AuthContext.Provider>
   );

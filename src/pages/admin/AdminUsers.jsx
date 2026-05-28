@@ -27,6 +27,22 @@ const AdminUsers = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createFormData, setCreateFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'player',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    clubName: '',
+    contactPerson: '',
+  });
+  
+  const fileInputRef = useRef(null);
+  const [uploadingDocKey, setUploadingDocKey] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -71,6 +87,72 @@ const AdminUsers = () => {
   const showError = (msg) => {
     setErrorMsg(msg);
     setTimeout(() => setErrorMsg(''), 3000);
+  };
+
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    if (!createFormData.username.trim() || !createFormData.email.trim() || !createFormData.password.trim() || !createFormData.role) {
+      return showError('Username, Email, Password and Role are required');
+    }
+    if (createFormData.password.length < 8) {
+      return showError('Password must be at least 8 characters long');
+    }
+    setActionLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      
+      const payload = {
+        username: createFormData.username,
+        email: createFormData.email,
+        password: createFormData.password,
+        role: createFormData.role,
+        personalInfo: {
+          firstName: createFormData.firstName,
+          lastName: createFormData.lastName,
+        },
+        contactInfo: {
+          email: createFormData.email,
+          phone: createFormData.phone,
+        },
+        clubInfo: createFormData.role === 'club' ? {
+          clubName: createFormData.clubName,
+          contactPerson: createFormData.contactPerson,
+        } : undefined
+      };
+
+      const res = await fetch(`${API_BASE_URL}/auth/admin/users`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        showSuccess('User created successfully!');
+        setShowCreateModal(false);
+        setCreateFormData({
+          username: '',
+          email: '',
+          password: '',
+          role: 'player',
+          firstName: '',
+          lastName: '',
+          phone: '',
+          clubName: '',
+          contactPerson: '',
+        });
+        fetchUsers();
+      } else {
+        showError(data.message || 'Failed to create user');
+      }
+    } catch (err) {
+      showError('Error creating user');
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   const handleSetVerification = async (userId, status) => {
@@ -150,6 +232,77 @@ const AdminUsers = () => {
       showSuccess('User deleted.');
     } catch (err) {
       showError('Error deleting user');
+    }
+  };
+
+  const handleDocumentDelete = async (docKey) => {
+    if (!window.confirm('Are you sure you want to delete this document?')) return;
+    setActionLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const updatedDocuments = { ...selectedUser.documents, [docKey]: '' };
+      const res = await fetch(`${API_BASE_URL}/auth/admin/users/${selectedUser._id}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ documents: updatedDocuments })
+      });
+      if (res.ok) {
+        showSuccess('Document deleted!');
+        fetchUsers();
+        setSelectedUser(prev => ({ ...prev, documents: updatedDocuments }));
+      } else {
+        showError('Failed to delete document');
+      }
+    } catch (err) {
+      showError('Error deleting document');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDocumentUploadClick = (docKey) => {
+    setUploadingDocKey(docKey);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !uploadingDocKey) return;
+    if (file.size > 5 * 1024 * 1024) return showError('File size must be less than 5MB');
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }, // Note: No Content-Type for FormData
+        body: formData
+      });
+      if (!uploadRes.ok) throw new Error('Upload failed');
+      const uploadData = await uploadRes.json();
+      
+      const updatedDocuments = { ...selectedUser.documents, [uploadingDocKey]: uploadData.url };
+      const res = await fetch(`${API_BASE_URL}/auth/admin/users/${selectedUser._id}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ documents: updatedDocuments })
+      });
+
+      if (res.ok) {
+        showSuccess('Document uploaded!');
+        fetchUsers();
+        setSelectedUser(prev => ({ ...prev, documents: updatedDocuments }));
+      } else {
+        showError('Failed to save document URL');
+      }
+    } catch (err) {
+      showError('Error uploading document');
+    } finally {
+      setUploading(false);
+      setUploadingDocKey(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -243,7 +396,7 @@ const AdminUsers = () => {
       (verificationFilter === 'Verified' && u.verificationStatus === 'verified') ||
       (verificationFilter === 'Rejected' && u.verificationStatus === 'rejected');
 
-    const matchesRole = roleFilter === 'All' ||
+    const matchesRole = roleFilter.toLowerCase() === 'all' ||
       u.role?.toLowerCase() === roleFilter.toLowerCase();
 
     return matchesSearch && matchesVerification && matchesRole;
@@ -266,6 +419,8 @@ const AdminUsers = () => {
       case 'coach': return 'bg-purple-50 text-purple-700 border-purple-100';
       case 'club': return 'bg-orange-50 text-orange-700 border-orange-100';
       case 'admin': return 'bg-red-50 text-red-700 border-red-100';
+      case 'viewer': return 'bg-indigo-50 text-indigo-700 border-indigo-100';
+      case 'user': return 'bg-teal-50 text-teal-700 border-teal-100';
       default: return 'bg-gray-50 text-gray-600 border-gray-100';
     }
   };
@@ -464,12 +619,20 @@ const AdminUsers = () => {
             <h2 className="text-base font-black text-gray-900">System Users</h2>
             <span className="text-xs font-bold text-gray-400 ml-1">({filteredUsers.length})</span>
           </div>
-          <button
-            onClick={handleExportCSV}
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20"
-          >
-            <RiDownload2Line size={16} /> Export CSV
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-500/20"
+            >
+              <RiUserLine size={16} /> Create User
+            </button>
+            <button
+              onClick={handleExportCSV}
+              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20"
+            >
+              <RiDownload2Line size={16} /> Export CSV
+            </button>
+          </div>
         </div>
 
         {/* Column Headers */}
@@ -822,47 +985,58 @@ const AdminUsers = () => {
                 </div>
               )}
 
+              {/* Hidden File Input for Admin Document Upload */}
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                className="hidden" 
+                accept="image/*,.pdf" 
+              />
+
               {/* Registration Documents */}
-              {selectedUser.documents && Object.keys(selectedUser.documents).some(k => selectedUser.documents[k]) && (
-                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                  <div className="flex items-center gap-3 mb-5">
-                    <RiFileTextLine className="text-blue-500" size={18} />
-                    <h3 className="text-xs font-black uppercase tracking-widest text-gray-700">Registration Documents</h3>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      ['Photograph', 'photograph'],
-                      ['DOB Proof', 'dobProof'],
-                      ['Aadhaar Front', 'aadhaarFront'],
-                      ['Aadhaar Back', 'aadhaarBack'],
-                      ['Signature', 'signature'],
-                      ['ID Proof', 'idProof'],
-                      ['Address Proof', 'addressProof'],
-                    ].map(([label, key]) => (
-                      selectedUser.documents[key] ? (
-                        <button
-                          key={key}
-                          onClick={() => setPreviewImage(selectedUser.documents[key])}
-                          className="flex items-center justify-between w-full text-left bg-white border border-blue-100 rounded-xl px-4 py-3 hover:border-blue-300 hover:bg-blue-50 transition-all group"
-                        >
-                          <div className="flex items-center gap-3">
-                            <RiFileTextLine className="text-blue-400" size={16} />
-                            <span className="text-xs font-black uppercase tracking-wider text-gray-700">{label}</span>
-                          </div>
-                          <RiExternalLinkLine className="text-blue-400 group-hover:text-blue-600" size={16} />
-                        </button>
-                      ) : (
-                        <div key={key} className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-4 py-3 opacity-40">
-                          <div className="flex items-center gap-3">
-                            <RiFileTextLine className="text-gray-400" size={16} />
-                            <span className="text-xs font-black uppercase tracking-wider text-gray-500">{label}</span>
-                          </div>
-                        </div>
-                      )
-                    ))}
-                  </div>
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <div className="flex items-center gap-3 mb-5">
+                  <RiFileTextLine className="text-blue-500" size={18} />
+                  <h3 className="text-xs font-black uppercase tracking-widest text-gray-700">Registration Documents</h3>
                 </div>
-              )}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    ['Photograph', 'photograph'],
+                    ['DOB Proof', 'dobProof'],
+                    ['Aadhaar Front', 'aadhaarFront'],
+                    ['Aadhaar Back', 'aadhaarBack'],
+                    ['Signature', 'signature'],
+                    ['ID Proof', 'idProof'],
+                    ['Address Proof', 'addressProof'],
+                  ].map(([label, key]) => (
+                    <div key={key} className="flex flex-col bg-white border border-gray-100 rounded-xl px-4 py-3 group hover:border-blue-200 transition-all">
+                      <div className="flex items-center gap-3 mb-2">
+                        <RiFileTextLine className={selectedUser.documents?.[key] ? "text-blue-400" : "text-gray-400"} size={16} />
+                        <span className={`text-xs font-black uppercase tracking-wider ${selectedUser.documents?.[key] ? "text-gray-700" : "text-gray-400"}`}>
+                          {label}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 mt-auto pt-2 border-t border-gray-50">
+                        {selectedUser.documents?.[key] ? (
+                          <>
+                            <button onClick={() => setPreviewImage(selectedUser.documents[key])} className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors flex-1 flex items-center justify-center gap-1">
+                              <RiExternalLinkLine size={12} /> View
+                            </button>
+                            <button onClick={() => handleDocumentDelete(key)} className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded hover:bg-red-100 transition-colors flex items-center justify-center gap-1" disabled={actionLoading}>
+                              <RiDeleteBinLine size={12} /> Delete
+                            </button>
+                          </>
+                        ) : (
+                          <button onClick={() => handleDocumentUploadClick(key)} className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded hover:bg-emerald-100 transition-colors flex-1 flex items-center justify-center gap-1" disabled={uploading}>
+                            {uploading && uploadingDocKey === key ? 'Uploading...' : 'Upload File'}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* Admin Action Center */}
               <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
@@ -960,6 +1134,179 @@ const AdminUsers = () => {
               <RiCloseLine size={24} />
             </button>
             <img src={previewImage} alt="Document Preview" className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" />
+          </div>
+        </div>
+      )}
+      {/* Create User Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-8 border-b border-gray-100 flex items-start justify-between shrink-0">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                  <RiUserLine size={24} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-black text-gray-900">Create New User</h2>
+                  <p className="text-xs text-gray-400 font-bold mt-1 uppercase tracking-wider">Add a user with any system role</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition-all"
+              >
+                <RiCloseLine size={20} />
+              </button>
+            </div>
+
+            {/* Modal Body / Form */}
+            <form onSubmit={handleCreateUser} className="flex-1 overflow-y-auto p-8 space-y-6">
+              {/* Account Credentials */}
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <h3 className="text-xs font-black uppercase tracking-widest text-gray-700 mb-4 flex items-center gap-2">
+                  <RiShieldUserLine size={16} className="text-blue-500" /> Account Credentials
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Username *</p>
+                    <input 
+                      type="text" 
+                      required 
+                      value={createFormData.username} 
+                      onChange={e => setCreateFormData({...createFormData, username: e.target.value})} 
+                      placeholder="e.g. johndoe" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Email Address *</p>
+                    <input 
+                      type="email" 
+                      required 
+                      value={createFormData.email} 
+                      onChange={e => setCreateFormData({...createFormData, email: e.target.value})} 
+                      placeholder="e.g. john@example.com" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Password *</p>
+                    <input 
+                      type="password" 
+                      required 
+                      value={createFormData.password} 
+                      onChange={e => setCreateFormData({...createFormData, password: e.target.value})} 
+                      placeholder="Min 8 characters" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">System Role *</p>
+                    <select 
+                      value={createFormData.role} 
+                      onChange={e => setCreateFormData({...createFormData, role: e.target.value})} 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent capitalize cursor-pointer"
+                    >
+                      <option value="player">Player / Athlete</option>
+                      <option value="coach">Coach</option>
+                      <option value="admin">Admin</option>
+                      <option value="club">Club</option>
+                      <option value="viewer">Viewer</option>
+                      <option value="user">User</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Personal Details */}
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <h3 className="text-xs font-black uppercase tracking-widest text-gray-700 mb-4 flex items-center gap-2">
+                  <RiUserLine size={16} className="text-blue-500" /> Profile Information
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">First Name</p>
+                    <input 
+                      type="text" 
+                      value={createFormData.firstName} 
+                      onChange={e => setCreateFormData({...createFormData, firstName: e.target.value})} 
+                      placeholder="First name" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                  <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Last Name</p>
+                    <input 
+                      type="text" 
+                      value={createFormData.lastName} 
+                      onChange={e => setCreateFormData({...createFormData, lastName: e.target.value})} 
+                      placeholder="Last name" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                  <div className="col-span-2 bg-white rounded-xl px-4 py-3 border border-gray-100">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Phone Number</p>
+                    <input 
+                      type="text" 
+                      value={createFormData.phone} 
+                      onChange={e => setCreateFormData({...createFormData, phone: e.target.value})} 
+                      placeholder="10 digit mobile number" 
+                      className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Conditional Club Info */}
+              {createFormData.role === 'club' && (
+                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-gray-700 mb-4 flex items-center gap-2">
+                    <RiShieldUserLine size={16} className="text-blue-500" /> Club Details
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Club Name</p>
+                      <input 
+                        type="text" 
+                        value={createFormData.clubName} 
+                        onChange={e => setCreateFormData({...createFormData, clubName: e.target.value})} 
+                        placeholder="e.g. Royal Riders Club" 
+                        className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                      />
+                    </div>
+                    <div className="bg-white rounded-xl px-4 py-3 border border-gray-100">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Contact Person</p>
+                      <input 
+                        type="text" 
+                        value={createFormData.contactPerson} 
+                        onChange={e => setCreateFormData({...createFormData, contactPerson: e.target.value})} 
+                        placeholder="e.g. John Doe" 
+                        className="w-full font-bold text-gray-800 text-sm outline-none bg-transparent" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex gap-4 pt-4 shrink-0 border-t border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="flex-1 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={actionLoading}
+                  className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50"
+                >
+                  {actionLoading ? 'Creating...' : 'Create User'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

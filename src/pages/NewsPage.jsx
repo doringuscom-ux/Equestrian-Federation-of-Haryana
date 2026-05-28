@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaFilePdf, FaCalendarAlt } from 'react-icons/fa';
-import { Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 import { Link } from 'react-router-dom';
+import LoadingScreen from '../components/LoadingScreen';
 
 const NewsPage = () => {
   const [news, setNews] = useState([]);
@@ -26,6 +26,7 @@ const NewsPage = () => {
 
   return (
     <div className="w-full font-['Inter'] bg-[#050505] min-h-screen text-white">
+      <LoadingScreen isLoading={loading} />
       {/* Navbar Overlay */}
       
       {/* Hero Section */}
@@ -57,11 +58,7 @@ const NewsPage = () => {
 
         {/* News List */}
         <div className="flex flex-col gap-4 md:gap-0">
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <Loader2 className="w-12 h-12 text-[#cba358] animate-spin" />
-            </div>
-          ) : news.length === 0 ? (
+          {news.length === 0 ? (
             <div className="text-center py-20 text-gray-500">
               No news or results published yet.
             </div>

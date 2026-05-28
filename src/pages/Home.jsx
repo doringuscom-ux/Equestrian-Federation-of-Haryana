@@ -73,12 +73,6 @@ function Home() {
             Discover More <span>→</span>
           </button>
 
-          {/* Carousel indicators */}
-          <div className="absolute bottom-12 flex gap-4">
-            <div className="w-2.5 h-2.5 rounded-full bg-white ring-[3px] ring-white/30 ring-offset-2 ring-offset-transparent"></div>
-            <div className="w-2 h-2 rounded-full bg-white/60 hover:bg-white transition-colors cursor-pointer mt-0.5"></div>
-            <div className="w-2 h-2 rounded-full bg-white/60 hover:bg-white transition-colors cursor-pointer mt-0.5"></div>
-          </div>
         </main>
       </div>
 

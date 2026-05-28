@@ -164,8 +164,7 @@ const ContactPage = () => {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2 uppercase tracking-widest">Email Address</h3>
                   <p className="text-gray-400 leading-relaxed font-light">
-                    info@hkca.org.in<br />
-                    support@hkca.org.in
+                    effharyana@gmail.com
                   </p>
                 </div>
               </div>

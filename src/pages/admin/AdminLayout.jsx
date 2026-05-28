@@ -77,7 +77,6 @@ const AdminLayout = () => {
   const menuItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={18} /> },
     { name: 'Manage Gallery', path: '/admin/gallery', icon: <ImageIcon size={18} /> },
-    { name: 'Media Library', path: '/admin/media', icon: <Film size={18} /> },
     { name: 'Manage Events', path: '/admin/events', icon: <CalendarDays size={18} /> },
     { name: 'Manage Users', path: '/admin/users', icon: <Users size={18} /> },
     { name: 'Registration Mgmt', path: '/admin/registration-management', icon: <Settings size={18} /> },

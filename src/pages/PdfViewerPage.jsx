@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, ExternalLink, Loader2 } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 import NotFoundPage from './NotFoundPage';
+import LoadingScreen from '../components/LoadingScreen';
 
 const PdfViewerPage = () => {
   const { slug } = useParams();
@@ -55,17 +56,9 @@ const PdfViewerPage = () => {
     return <NotFoundPage />;
   }
 
-  if (!newsItem) {
-    return (
-      <div className="w-full h-screen bg-[#050505] flex flex-col items-center justify-center text-white">
-        <Loader2 className="w-10 h-10 text-[#cba358] animate-spin mb-4" />
-        <span className="text-[#cba358] text-sm tracking-widest uppercase font-bold">Loading...</span>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full h-screen flex flex-col bg-[#050505] overflow-hidden font-['Inter']">
+      <LoadingScreen isLoading={!newsItem || isLoading} />
       
       {/* Top Header Bar */}
       <div className="h-16 bg-[#0a0a0a] border-b border-white/10 flex items-center justify-between px-4 md:px-6 flex-shrink-0 z-10 shadow-md">
@@ -117,14 +110,7 @@ const PdfViewerPage = () => {
         </div>
       </div>
 
-      {/* Document Viewer Area */}
       <div className="flex-grow relative w-full h-full bg-[#111]">
-        {isLoading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#111] z-10">
-            <Loader2 className="w-10 h-10 text-[#cba358] animate-spin mb-4" />
-            <span className="text-[#cba358] text-sm tracking-widest uppercase font-bold animate-pulse">Loading Document...</span>
-          </div>
-        )}
         
         {isImage ? (
           <div className="w-full h-full flex items-center justify-center p-4">
