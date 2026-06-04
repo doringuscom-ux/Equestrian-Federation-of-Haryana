@@ -43,12 +43,9 @@ const Affiliations = () => {
         
         {/* Top Icon */}
         <div className="mb-6">
-          <svg className="w-8 h-8 fill-white opacity-90" viewBox="0 0 24 24">
-            <path d="M14.4,5.4C14.4,5.4,14.4,5.4,14.4,5.4c-0.2-0.5-0.7-0.7-1.2-0.5c-0.1,0.1-0.2,0.1-0.2,0.2l-2.4,1.4
-              C9.4,7,7.7,7.8,6,8.7L5,9.2C4.1,9.7,3.5,10.6,3.4,11.7l-0.2,3.3C3.1,16.2,4,17,5,16.9l2.2-0.1L9,15.7l1.7,3.5
-              c0.2,0.4,0.6,0.5,1,0.3c0.4-0.2,0.5-0.6,0.3-1l-1.3-2.6c0.5,0.1,1.1,0.3,1.6,0.3L15.6,15c1.4-0.4,2.5-1.5,2.9-2.9l1.4-4.2
-              c0.2-0.6-0.2-1.3-0.8-1.5C18.6,6.3,18.1,6,17.5,6c-0.2,0-0.4,0-0.6,0.1L14.4,5.4z"/>
-          </svg>
+          <div className="bg-white rounded-full p-1.5 w-16 h-16 flex items-center justify-center shadow-lg">
+            <img src="/IMG/Logo.png" alt="EFH Logo" className="w-full h-full object-contain" />
+          </div>
         </div>
 
         {/* Heading */}

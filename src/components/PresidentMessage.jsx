@@ -71,13 +71,8 @@ const PresidentMessage = () => {
               
               {/* Mobile Name and Title */}
               <div className="flex lg:hidden items-center gap-5 mb-8">
-                <div className="w-14 h-14 rounded-full border border-[#bfa15f]/40 bg-white shadow-sm flex items-center justify-center p-2 shrink-0">
-                  <svg className="w-full h-full fill-none stroke-[#bfa15f] stroke-[1.5]" viewBox="0 0 24 24">
-                    <path d="M14.4,5.4C14.4,5.4,14.4,5.4,14.4,5.4c-0.2-0.5-0.7-0.7-1.2-0.5c-0.1,0.1-0.2,0.1-0.2,0.2l-2.4,1.4
-                      C9.4,7,7.7,7.8,6,8.7L5,9.2C4.1,9.7,3.5,10.6,3.4,11.7l-0.2,3.3C3.1,16.2,4,17,5,16.9l2.2-0.1L9,15.7l1.7,3.5
-                      c0.2,0.4,0.6,0.5,1,0.3c0.4-0.2,0.5-0.6,0.3-1l-1.3-2.6c0.5,0.1,1.1,0.3,1.6,0.3L15.6,15c1.4-0.4,2.5-1.5,2.9-2.9l1.4-4.2
-                      c0.2-0.6-0.2-1.3-0.8-1.5C18.6,6.3,18.1,6,17.5,6c-0.2,0-0.4,0-0.6,0.1L14.4,5.4z"/>
-                  </svg>
+                <div className="w-20 h-20 rounded-full border border-[#bfa15f]/40 bg-white shadow-sm flex items-center justify-center p-1 shrink-0">
+                  <img src="/IMG/Logo.png" alt="EFH Logo" className="w-full h-full object-contain p-0" />
                 </div>
                 <div>
                   <h4 className="text-3xl font-['Playfair_Display'] font-black text-black leading-none mb-2">{msg.name}</h4>
@@ -163,13 +158,8 @@ const PresidentMessage = () => {
 
                 {/* Name and Title below Content (Desktop Only) */}
                 <div className="hidden lg:flex items-center gap-5 lg:pl-6">
-                  <div className="w-14 h-14 rounded-full border border-[#bfa15f]/40 bg-white shadow-sm flex items-center justify-center p-2 shrink-0">
-                    <svg className="w-full h-full fill-none stroke-[#bfa15f] stroke-[1.5]" viewBox="0 0 24 24">
-                      <path d="M14.4,5.4C14.4,5.4,14.4,5.4,14.4,5.4c-0.2-0.5-0.7-0.7-1.2-0.5c-0.1,0.1-0.2,0.1-0.2,0.2l-2.4,1.4
-                        C9.4,7,7.7,7.8,6,8.7L5,9.2C4.1,9.7,3.5,10.6,3.4,11.7l-0.2,3.3C3.1,16.2,4,17,5,16.9l2.2-0.1L9,15.7l1.7,3.5
-                        c0.2,0.4,0.6,0.5,1,0.3c0.4-0.2,0.5-0.6,0.3-1l-1.3-2.6c0.5,0.1,1.1,0.3,1.6,0.3L15.6,15c1.4-0.4,2.5-1.5,2.9-2.9l1.4-4.2
-                        c0.2-0.6-0.2-1.3-0.8-1.5C18.6,6.3,18.1,6,17.5,6c-0.2,0-0.4,0-0.6,0.1L14.4,5.4z"/>
-                    </svg>
+                  <div className="w-20 h-20 rounded-full border border-[#bfa15f]/40 bg-white shadow-sm flex items-center justify-center p-1 shrink-0">
+                    <img src="/IMG/Logo.png" alt="EFH Logo" className="w-full h-full object-contain p-0" />
                   </div>
                   <div>
                     <h4 className="text-3xl font-['Playfair_Display'] font-black text-black leading-none mb-2">{msg.name}</h4>

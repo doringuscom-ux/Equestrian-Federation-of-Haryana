@@ -40,10 +40,23 @@ const AboutSection = () => {
               <p className="text-gray-400 text-xs tracking-[0.2em] uppercase font-bold">Our Motto</p>
             </div>
             
-            <button className="mt-8 group flex items-center gap-4 border-b-2 border-black pb-2 hover:border-[#cba358] transition-colors duration-300">
-              <span className="text-black font-bold uppercase tracking-[0.2em] text-sm group-hover:text-[#cba358] transition-colors">Discover Our Legacy</span>
-              <svg className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 text-black group-hover:text-[#cba358]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-            </button>
+            <div className="flex flex-wrap items-center gap-6 mt-8">
+
+              <a 
+                href="/dummy.pdf" 
+                download 
+                className="group flex items-center gap-4 bg-[#0a0a0a] border border-[#cba358]/30 px-8 py-3.5 rounded-full shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_30px_rgba(203,163,88,0.2)] hover:border-[#cba358] transition-all duration-500 transform hover:-translate-y-1"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#cba358]/10 flex items-center justify-center group-hover:bg-[#cba358] transition-colors duration-500">
+                  <svg className="w-4 h-4 text-[#cba358] group-hover:text-black transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                  </svg>
+                </div>
+                <span className="font-bold uppercase tracking-[0.2em] text-[11px] text-white group-hover:text-[#cba358] transition-colors duration-500">
+                  Download PDF
+                </span>
+              </a>
+            </div>
           </div>
 
           {/* Image Composition */}

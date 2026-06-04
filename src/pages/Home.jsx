@@ -52,15 +52,9 @@ function Home() {
         </div>
 
         {/* Main Hero Content */}
-        <main className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 mt-8">
+        <main className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center px-4 mt-40">
           <div className="mb-6">
-            {/* Small horse icon above text */}
-            <svg className="w-24 h-24 fill-white mx-auto" viewBox="0 0 24 24">
-              <path d="M14.4,5.4C14.4,5.4,14.4,5.4,14.4,5.4c-0.2-0.5-0.7-0.7-1.2-0.5c-0.1,0.1-0.2,0.1-0.2,0.2l-2.4,1.4
-                C9.4,7,7.7,7.8,6,8.7L5,9.2C4.1,9.7,3.5,10.6,3.4,11.7l-0.2,3.3C3.1,16.2,4,17,5,16.9l2.2-0.1L9,15.7l1.7,3.5
-                c0.2,0.4,0.6,0.5,1,0.3c0.4-0.2,0.5-0.6,0.3-1l-1.3-2.6c0.5,0.1,1.1,0.3,1.6,0.3L15.6,15c1.4-0.4,2.5-1.5,2.9-2.9l1.4-4.2
-                c0.2-0.6-0.2-1.3-0.8-1.5C18.6,6.3,18.1,6,17.5,6c-0.2,0-0.4,0-0.6,0.1L14.4,5.4z"/>
-            </svg>
+            {/* Logo removed */}
           </div>
           <h1 className="font-['Playfair_Display'] text-4xl md:text-6xl lg:text-[70px] text-white mb-6 drop-shadow-md">
             Equestrian Federation

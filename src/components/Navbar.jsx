@@ -21,18 +21,11 @@ const Navbar = () => {
     <>
       <nav className={`absolute top-0 w-full z-30 text-white pt-8 pb-4 transition-colors duration-300 ${isSolidNavbar ? 'bg-[#0a0a0a] shadow-xl' : 'bg-transparent'}`}>
         <div className="max-w-[1500px] mx-auto px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-24">
             <Link to="/" className="flex items-center gap-3">
-              {/* Logo vector */}
-              <svg className="w-10 h-10 fill-current" viewBox="0 0 24 24">
-                <path d="M14.4,5.4C14.4,5.4,14.4,5.4,14.4,5.4c-0.2-0.5-0.7-0.7-1.2-0.5c-0.1,0.1-0.2,0.1-0.2,0.2l-2.4,1.4
-                  C9.4,7,7.7,7.8,6,8.7L5,9.2C4.1,9.7,3.5,10.6,3.4,11.7l-0.2,3.3C3.1,16.2,4,17,5,16.9l2.2-0.1L9,15.7l1.7,3.5
-                  c0.2,0.4,0.6,0.5,1,0.3c0.4-0.2,0.5-0.6,0.3-1l-1.3-2.6c0.5,0.1,1.1,0.3,1.6,0.3L15.6,15c1.4-0.4,2.5-1.5,2.9-2.9l1.4-4.2
-                  c0.2-0.6-0.2-1.3-0.8-1.5C18.6,6.3,18.1,6,17.5,6c-0.2,0-0.4,0-0.6,0.1L14.4,5.4z"/>
-              </svg>
-              <span className="font-[inter] font-light text-2xl tracking-[0.2em] uppercase">
-                EFH
-              </span>
+              <div className="bg-white rounded-full p-2 w-24 h-24 flex items-center justify-center shadow-lg">
+                <img src="/IMG/Logo.png" alt="EFH Logo" className="w-full h-full object-contain" />
+              </div>
             </Link>
             
             <div className="hidden xl:flex space-x-6 xl:space-x-10 items-center text-xs font-semibold tracking-widest uppercase">
@@ -51,6 +44,7 @@ const Navbar = () => {
               <Link to="/events" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/events') || isActive('/event/') ? 'border-white text-white' : 'border-transparent'}`}>EVENTS</Link>
               <Link to="/news-and-results" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/news-and-results') ? 'border-white text-white' : 'border-transparent'}`}>NEWS & RESULTS</Link>
               <Link to="/gallery" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/gallery') ? 'border-white text-white' : 'border-transparent'}`}>GALLERY</Link>
+              <Link to="/haryana-districts" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/haryana-districts') ? 'border-white text-white' : 'border-transparent'}`}>HARYANA DISTRICTS</Link>
               <Link to="/contact" className={`hover:text-gray-300 transition-colors duration-300 pb-1 border-b ${isActive('/contact') ? 'border-white text-white' : 'border-transparent'}`}>GET IN TOUCH</Link>
               {user ? (
                 <>
@@ -118,6 +112,7 @@ const Navbar = () => {
           <Link to="/events" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/events') || isActive('/event/') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>EVENTS</Link>
           <Link to="/news-and-results" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/news-and-results') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>NEWS & RESULTS</Link>
           <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/gallery') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GALLERY</Link>
+          <Link to="/haryana-districts" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/haryana-districts') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>HARYANA DISTRICTS</Link>
           <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={`flex items-center py-1 transition-colors ${isActive('/contact') ? 'text-[#cba358]' : 'hover:text-[#cba358]'}`}>GET IN TOUCH</Link>
           
           <div className="pt-6 border-t border-white/5 space-y-4">

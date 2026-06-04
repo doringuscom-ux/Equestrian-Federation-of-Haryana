@@ -25,6 +25,7 @@ import Coupons from './pages/admin/Coupons'
 import News from './pages/admin/News'
 import RegistrationManagement from './pages/admin/RegistrationManagement'
 import NotFoundPage from './pages/NotFoundPage'
+import HaryanaDistricts from './pages/HaryanaDistricts'
 
 import Footer from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
@@ -91,6 +92,7 @@ function App() {
           <Route path="/news-and-results" element={<NewsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/haryana-districts" element={<HaryanaDistricts />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           
           {/* Dynamic Category/Slug Route for PDF Viewer (Place at bottom of public routes) */}

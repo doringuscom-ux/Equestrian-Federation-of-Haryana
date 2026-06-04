@@ -51,8 +51,8 @@ const LoginPage = () => {
           
           <div className="relative z-10">
             <Link to="/" className="text-gray-900 text-2xl font-black tracking-tighter flex items-center gap-2 mb-20">
-              <div className="w-10 h-10 bg-[#cba358] rounded-xl flex items-center justify-center">
-                <span className="text-gray-900 text-xl">H</span>
+              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-1.5">
+                <img src="/IMG/Logo.png" alt="EFH Logo" className="w-full h-full object-contain" />
               </div>
               EFH PORTAL.
             </Link>
