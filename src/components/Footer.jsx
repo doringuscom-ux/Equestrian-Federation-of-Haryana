@@ -68,13 +68,13 @@ const Footer = () => {
               <li className="flex items-start gap-3 group">
                 <FaMapMarkerAlt className="text-[#cba358] mt-1 shrink-0 group-hover:animate-bounce" size={14} />
                 <span className="text-gray-400 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
-                  123 Equestrian Avenue,<br />
-                  Gurugram, Haryana 122001
+                  SCO 28, first floor,<br />
+                  Sector 11, Panchkula
                 </span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaPhoneAlt className="text-[#cba358] shrink-0" size={14} />
-                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 98765 43210</span>
+                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 90416 55677</span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaEnvelope className="text-[#cba358] shrink-0" size={14} />
@@ -110,8 +110,11 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-xs">
-            &copy; {new Date().getFullYear()} Equestrian Federation of Haryana. All rights reserved.
+          <p className="text-gray-300 text-sm text-center md:text-left leading-relaxed">
+            &copy; {new Date().getFullYear()} Equestrian Federation of Haryana. All rights reserved. <br className="md:hidden" />
+            <span className="md:ml-2 text-gray-400">
+              Designed By <a href="https://digitalorra.com/" target="_blank" rel="noopener noreferrer" className="text-[#cba358] hover:text-white transition-colors font-semibold tracking-wide">Digital ORRA</a>
+            </span>
           </p>
           <div className="flex items-center gap-6 text-gray-500 text-xs">
             <a href="#" className="hover:text-[#cba358] transition-colors">Privacy Policy</a>
