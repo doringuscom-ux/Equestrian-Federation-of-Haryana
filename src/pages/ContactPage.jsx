@@ -131,8 +131,8 @@ const ContactPage = () => {
                   <h3 className="text-lg font-bold text-white mb-2 uppercase tracking-widest">Office Address</h3>
                   <p className="text-gray-400 leading-relaxed font-light">
                     Haryana Equestrian Federation<br />
-                    SCO 28, first floor,<br />
-                    Sector 11, Panchkula
+                    Equestrian Centre, Sports Complex<br />
+                    Haryana, India
                   </p>
                 </div>
               </div>
@@ -147,7 +147,8 @@ const ContactPage = () => {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2 uppercase tracking-widest">Phone Number</h3>
                   <p className="text-gray-400 leading-relaxed font-light">
-                    +91 90416 55677
+                    +91 98765 43210<br />
+                    +91 12345 67890
                   </p>
                 </div>
               </div>

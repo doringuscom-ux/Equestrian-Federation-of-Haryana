@@ -68,13 +68,13 @@ const Footer = () => {
               <li className="flex items-start gap-3 group">
                 <FaMapMarkerAlt className="text-[#cba358] mt-1 shrink-0 group-hover:animate-bounce" size={14} />
                 <span className="text-gray-400 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
-                  SCO 28, first floor,<br />
-                  Sector 11, Panchkula
+                  123 Equestrian Avenue,<br />
+                  Gurugram, Haryana 122001
                 </span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaPhoneAlt className="text-[#cba358] shrink-0" size={14} />
-                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 90416 55677</span>
+                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 98765 43210</span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaEnvelope className="text-[#cba358] shrink-0" size={14} />
@@ -109,14 +109,17 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-300 text-sm text-center md:text-left leading-relaxed">
-            &copy; {new Date().getFullYear()} Equestrian Federation of Haryana. All rights reserved. <br className="md:hidden" />
-            <span className="md:ml-2 text-gray-400">
-              Designed By <a href="https://digitalorra.com/" target="_blank" rel="noopener noreferrer" className="text-[#cba358] hover:text-white transition-colors font-semibold tracking-wide">Digital ORRA</a>
-            </span>
-          </p>
-          <div className="flex items-center gap-6 text-gray-500 text-xs">
+        <div className="pt-8 border-t border-white/10 flex flex-col lg:flex-row justify-between items-center gap-6 text-center lg:text-left">
+          
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-gray-300 text-sm md:text-base">
+            <p>&copy; {new Date().getFullYear()} Equestrian Federation of Haryana. All rights reserved.</p>
+            <span className="hidden md:inline text-gray-600">|</span>
+            <p>
+              Designed By <a href="https://digitalorra.com/" target="_blank" rel="noopener noreferrer" className="text-[#cba358] hover:text-white transition-colors font-semibold border-b border-[#cba358]/40 hover:border-white pb-0.5 tracking-wide">Digital ORRA</a>
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-6 text-gray-400 text-sm">
             <a href="#" className="hover:text-[#cba358] transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-[#cba358] transition-colors">Terms of Service</a>
           </div>
