@@ -566,7 +566,7 @@ documents: formData.documents,
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Phone Number (10 Digits)</label>
                         <input 
                           type="tel" 
-                          placeholder="9876543210" 
+                          placeholder="9468000044" 
                           maxLength="10"
                           className={`w-full bg-gray-50 border ${errors.phone ? 'border-red-500' : 'border-gray-200'} text-gray-900 px-6 py-5 rounded-3xl outline-none transition-all font-bold`}
                           onChange={(e) => handleInputChange('contactInfo', 'phone', e.target.value.replace(/\D/g, ''))}

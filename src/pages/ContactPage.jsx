@@ -130,9 +130,8 @@ const ContactPage = () => {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2 uppercase tracking-widest">Office Address</h3>
                   <p className="text-gray-400 leading-relaxed font-light">
-                    Haryana Equestrian Federation<br />
-                    Equestrian Centre, Sports Complex<br />
-                    Haryana, India
+                    G-1, Shopping Arcade, South City-1,<br />
+                    Gurgaon, Haryana – 122001
                   </p>
                 </div>
               </div>
@@ -147,8 +146,7 @@ const ContactPage = () => {
                 <div>
                   <h3 className="text-lg font-bold text-white mb-2 uppercase tracking-widest">Phone Number</h3>
                   <p className="text-gray-400 leading-relaxed font-light">
-                    +91 98765 43210<br />
-                    +91 12345 67890
+                    +91 94680 00044
                   </p>
                 </div>
               </div>

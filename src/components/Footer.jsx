@@ -68,13 +68,13 @@ const Footer = () => {
               <li className="flex items-start gap-3 group">
                 <FaMapMarkerAlt className="text-[#cba358] mt-1 shrink-0 group-hover:animate-bounce" size={14} />
                 <span className="text-gray-400 text-sm leading-relaxed group-hover:text-white transition-colors duration-300">
-                  123 Equestrian Avenue,<br />
-                  Gurugram, Haryana 122001
+                  G-1, Shopping Arcade, South City-1,<br />
+                  Gurgaon, Haryana – 122001
                 </span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaPhoneAlt className="text-[#cba358] shrink-0" size={14} />
-                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 98765 43210</span>
+                <span className="text-gray-400 text-sm group-hover:text-white transition-colors duration-300">+91 94680 00044</span>
               </li>
               <li className="flex items-center gap-3 group">
                 <FaEnvelope className="text-[#cba358] shrink-0" size={14} />
