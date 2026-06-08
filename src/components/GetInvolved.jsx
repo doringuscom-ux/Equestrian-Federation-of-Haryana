@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const GetInvolved = () => {
   return (
@@ -32,13 +33,13 @@ const GetInvolved = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto justify-center items-center">
-          <button className="w-full sm:w-auto px-10 py-4 bg-[#cba358] hover:bg-[#b08d4a] text-white text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300 rounded-sm shadow-[0_0_20px_rgba(203,163,88,0.3)] hover:shadow-[0_0_30px_rgba(203,163,88,0.5)]">
-            Join the Federation
-          </button>
+          <a href="tel:+919468000044" className="w-full sm:w-auto px-10 py-4 bg-[#cba358] hover:bg-[#b08d4a] text-white text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300 rounded-sm shadow-[0_0_20px_rgba(203,163,88,0.3)] hover:shadow-[0_0_30px_rgba(203,163,88,0.5)] text-center">
+            Call Now
+          </a>
           
-          <button className="w-full sm:w-auto px-10 py-4 bg-transparent border-2 border-white hover:border-[#cba358] text-white hover:text-[#cba358] text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300 rounded-sm">
+          <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="w-full sm:w-auto px-10 py-4 bg-transparent border-2 border-white hover:border-[#cba358] text-white hover:text-[#cba358] text-sm font-bold tracking-[0.2em] uppercase transition-colors duration-300 rounded-sm text-center">
             Contact Us
-          </button>
+          </Link>
         </div>
         
       </div>

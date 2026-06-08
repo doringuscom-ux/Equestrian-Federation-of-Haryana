@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const ExperienceAction = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -110,10 +111,10 @@ const ExperienceAction = () => {
         <div className={`mt-8 flex justify-center transition-all duration-1000 delay-300 ${
           isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
         }`}>
-          <button className="group relative text-white text-xs md:text-sm font-bold tracking-[0.2em] uppercase pb-3 transition-colors duration-300 hover:text-[#cba358]">
+          <Link to="/gallery" onClick={() => window.scrollTo(0, 0)} className="group relative text-white text-xs md:text-sm font-bold tracking-[0.2em] uppercase pb-3 transition-colors duration-300 hover:text-[#cba358]">
             EXPLORE FULL GALLERY
             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-[2px] bg-[#cba358] transition-all duration-300 group-hover:w-full group-hover:bg-white"></span>
-          </button>
+          </Link>
         </div>
 
       </div>

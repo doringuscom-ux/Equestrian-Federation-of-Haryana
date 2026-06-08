@@ -63,9 +63,9 @@ function Home() {
             Established in 2002, the Equestrian Federation of Haryana is committed to the promotion, development, and welfare of equestrian sports across Haryana. Preserving Heritage. Building Champions. Inspiring Haryana.
           </p>
           
-          <button className="bg-white text-black px-8 py-3 rounded-sm text-sm font-semibold tracking-wide hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+          <Link to="/about" className="bg-white text-black px-8 py-3 rounded-sm text-sm font-semibold tracking-wide hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
             Discover More <span>→</span>
-          </button>
+          </Link>
 
         </main>
       </div>
