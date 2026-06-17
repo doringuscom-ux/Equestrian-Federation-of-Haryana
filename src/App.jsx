@@ -26,6 +26,9 @@ import News from './pages/admin/News'
 import RegistrationManagement from './pages/admin/RegistrationManagement'
 import NotFoundPage from './pages/NotFoundPage'
 import HaryanaDistricts from './pages/HaryanaDistricts'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsOfService from './pages/TermsOfService'
+import RefundPolicy from './pages/RefundPolicy'
 
 import Footer from './components/Footer'
 import { AuthProvider } from './context/AuthContext'
@@ -93,6 +96,9 @@ function App() {
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/haryana-districts" element={<HaryanaDistricts />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           
           {/* Dynamic Category/Slug Route for PDF Viewer (Place at bottom of public routes) */}

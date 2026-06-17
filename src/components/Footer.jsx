@@ -119,9 +119,10 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-6 text-gray-400 text-sm">
-            <a href="#" className="hover:text-[#cba358] transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#cba358] transition-colors">Terms of Service</a>
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-gray-400 text-sm">
+            <Link to="/privacy-policy" onClick={() => window.scrollTo(0, 0)} className="hover:text-[#cba358] transition-colors">Privacy Policy</Link>
+            <Link to="/terms-of-service" onClick={() => window.scrollTo(0, 0)} className="hover:text-[#cba358] transition-colors">Terms of Service</Link>
+            <Link to="/refund-policy" onClick={() => window.scrollTo(0, 0)} className="hover:text-[#cba358] transition-colors">Refund Policy</Link>
           </div>
         </div>
       </div>
